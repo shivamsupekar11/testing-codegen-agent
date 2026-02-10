@@ -1,0 +1,34 @@
+# ── Python ────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── Virtual Environment ──────────────────────────────
+venv/
+.venv/
+env/
+
+# ── Environment Variables ────────────────────────────
+.env
+
+# ── macOS ────────────────────────────────────────────
+.DS_Store
+
+# ── IDE / Editor ─────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── ADK (Google Agent Development Kit) ───────────────
+.adk/
+
+# ── DOM Cache (Playwright/Browser cache) ─────────────
+.dom_cache/
+
+# ── Gemini ───────────────────────────────────────────
+.gemini/
