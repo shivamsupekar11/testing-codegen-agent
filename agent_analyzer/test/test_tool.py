@@ -13,7 +13,7 @@ import os
 # Add project root to path so we can import the tool
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
-from agent_analyzer.xpath_finder.tool import find_xpath, find_multiple_xpath
+from utils.xpath_finder.tool import find_xpath, find_multiple_xpath
 
 
 # ── Configuration ────────────────────────────────────────────────────

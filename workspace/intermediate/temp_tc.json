@@ -1,0 +1,32 @@
+[
+  {
+    "tc_id": "TC_001",
+    "title": "Verify website launches",
+    "description": "Open www.dev.erosnow.com",
+    "priority": "Critical",
+    "test_type": "Functional",
+    "preconditions": "Browser is open",
+    "steps": [
+      {
+        "step_no": 1,
+        "action": "Launch website",
+        "element_type": "url",
+        "original_hint": "www.dev.erosnow.com",
+        "resolved_locators": {
+          "value": "//example/xpath",
+          "confidence": 100,
+          "xpath": "//example/xpath",
+          "fallbacks": []
+        },
+        "input_data": null,
+        "expected_result": "Website loads successfully",
+        "assertion": {
+          "type": "visible",
+          "target": null,
+          "value": null
+        },
+        "method_name": "step_01_launch_website"
+      }
+    ]
+  }
+]

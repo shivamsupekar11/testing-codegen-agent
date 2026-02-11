@@ -1,0 +1,202 @@
+[
+  {
+    "module": "Launch",
+    "test_cases": [
+      {
+        "tc_id": "TC_001",
+        "title": "Verify website launches",
+        "description": "Open www.dev.erosnow.com",
+        "priority": "Critical",
+        "test_type": "Functional",
+        "preconditions": "Browser is open",
+        "steps": [
+          {
+            "step_no": 1,
+            "action": "Launch website",
+            "element_type": "url",
+            "original_hint": "www.dev.erosnow.com",
+            "resolved_locators": {
+              "value": "//example/xpath",
+              "confidence": 100,
+              "xpath": "//example/xpath",
+              "fallbacks": []
+            },
+            "input_data": null,
+            "expected_result": "Website loads successfully",
+            "assertion": {
+              "type": "visible",
+              "target": null,
+              "value": null
+            },
+            "method_name": "step_01_launch_website"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Login",
+    "test_cases": [
+      {
+        "tc_id": "TC_002",
+        "title": "Login with valid credentials",
+        "description": "Enter valid email & password \u2192 Login",
+        "priority": "P1-Critical",
+        "test_type": "Functional",
+        "preconditions": "User is registered",
+        "steps": [
+          {
+            "step_no": 1,
+            "action": "Click Let\u2019s Start",
+            "element_type": "button",
+            "original_hint": "text='Let\u2019s Start'",
+            "resolved_locators": {
+              "value": "",
+              "confidence": 0.0,
+              "xpath": "",
+              "fallbacks": []
+            },
+            "input_data": null,
+            "expected_result": "Navigated to login page",
+            "assertion": {
+              "type": "text_contains",
+              "target": null,
+              "value": null
+            },
+            "method_name": "step_01_click_lets_start"
+          },
+          {
+            "step_no": 2,
+            "action": "Enter Email",
+            "element_type": "input",
+            "original_hint": "abel='Email' OR placeholder='Email'",
+            "resolved_locators": {
+              "value": "",
+              "confidence": 0.0,
+              "xpath": "",
+              "fallbacks": []
+            },
+            "input_data": "9284841447",
+            "expected_result": "Email entered",
+            "assertion": {
+              "type": "visible",
+              "target": null,
+              "value": null
+            },
+            "method_name": "step_02_enter_email"
+          },
+          {
+            "step_no": 3,
+            "action": "Click Continue",
+            "element_type": "button",
+            "original_hint": "text='Continue'",
+            "resolved_locators": {
+              "value": "",
+              "confidence": 0.0,
+              "xpath": "",
+              "fallbacks": []
+            },
+            "input_data": null,
+            "expected_result": "Continue clicked",
+            "assertion": {
+              "type": "visible",
+              "target": null,
+              "value": null
+            },
+            "method_name": "step_03_click_continue"
+          },
+          {
+            "step_no": 4,
+            "action": "Enter Password",
+            "element_type": "input",
+            "original_hint": "label='Password' OR placeholder='Password'",
+            "resolved_locators": {
+              "value": "",
+              "confidence": 0.0,
+              "xpath": "",
+              "fallbacks": []
+            },
+            "input_data": "123456789",
+            "expected_result": "Password entered",
+            "assertion": {
+              "type": "toast_message",
+              "target": null,
+              "value": null
+            },
+            "method_name": "step_04_enter_password"
+          },
+          {
+            "step_no": 5,
+            "action": "Click Continue",
+            "element_type": "button",
+            "original_hint": "text='Continue'",
+            "resolved_locators": {
+              "value": "",
+              "confidence": 0.0,
+              "xpath": "",
+              "fallbacks": []
+            },
+            "input_data": null,
+            "expected_result": "User logged in",
+            "assertion": {
+              "type": "",
+              "target": null,
+              "value": null
+            },
+            "method_name": "step_05_click_continue"
+          }
+        ]
+      },
+      {
+        "tc_id": "TC_003",
+        "title": "Logout functionality",
+        "description": "This test case validates that a logged\u2011in user can successfully log out of the application. The test ensures that when the user hovers over the profile icon, the dropdown menu appears containing the logout option. After clicking the logout button, the session should end, and the user should be redirected to the login page or any defined post\u2011logout screen, confirming that the user has been successfully logged out.",
+        "priority": "P1-Critical",
+        "test_type": "Functional",
+        "preconditions": "Browser is login",
+        "steps": [
+          {
+            "step_no": 1,
+            "action": "Hover on the profile icon",
+            "element_type": "dropdown",
+            "original_hint": "aria-label='User menu' OR class contains 'profile'",
+            "resolved_locators": {
+              "value": "",
+              "confidence": 0.0,
+              "xpath": "",
+              "fallbacks": []
+            },
+            "input_data": null,
+            "expected_result": "Dropdown menu opens with options",
+            "assertion": {
+              "type": "visible",
+              "target": null,
+              "value": null
+            },
+            "method_name": "step_01_hover_on_the_profile_icon"
+          },
+          {
+            "step_no": 2,
+            "action": "Click Logout button",
+            "element_type": "button",
+            "original_hint": "text='Logout'",
+            "resolved_locators": {
+              "value": "",
+              "confidence": 0.0,
+              "xpath": "",
+              "fallbacks": []
+            },
+            "input_data": null,
+            "expected_result": "User logged out",
+            "assertion": {
+              "type": "visible",
+              "target": null,
+              "value": null
+            },
+            "method_name": "step_02_click_logout_button"
+          }
+        ]
+      }
+    ]
+  }
+]
