@@ -16,7 +16,7 @@ except ImportError:
 # ── Load .env ──────────────────────────────────────────────────────────
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(SCRIPT_DIR)
-ENV_PATH = os.path.join(REPO_ROOT, "agent_analyzer", ".env")
+ENV_PATH = os.path.join(REPO_ROOT, ".env")
 
 
 def load_env(path):

@@ -1,20 +1,29 @@
-from google.adk.agents.llm_agent import Agent
+from google.adk.agents import Agent
 import sys
 import os
+
+
 
 # Ensure local xpath_finder is importable
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from utils.xpath_finder import find_xpath, find_multiple_xpath
-from utils.read_test_case import tool_read_test_case
-from utils.test_case_parser import tool_list_test_cases
+from utils.tool_read_test_case import tool_read_test_case
+from utils.tool_list_test_cases import tool_list_test_cases
 from utils.edit_tool import edit_file
-from utils.chat_model import get_model_name
+from utils.chat_model import get_model
+
+# Load the system prompt from the markdown file
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SYSTEM_PROMPT_PATH = os.path.join(PROJECT_ROOT, "prompts", "system_prompt.md")
+
+with open(SYSTEM_PROMPT_PATH, 'r') as f:
+    system_prompt = f.read()
 
 root_agent = Agent(
-    model=get_model_name(),
+    model=get_model(),
     name='agent_analyzer',
-    description='Finds XPaths for web elements using fuzzy matching strategies.',
-    instruction='You are an expert at finding robust XPath locators. Use find_xpath for single elements and find_multiple_xpath for batch processing. Always prioritize high-confidence results.',
+    description='Expert QA Automation Analyzer Agent that systematically processes every test case in a TOON file, discovers the most accurate XPath locators for each UI element, and updates the TOON file with those locators.',
+    instruction=system_prompt,
     tools=[find_xpath, find_multiple_xpath, tool_read_test_case, tool_list_test_cases, edit_file],
 )

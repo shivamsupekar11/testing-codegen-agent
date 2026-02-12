@@ -16,9 +16,9 @@
             "element_type": "url",
             "original_hint": "www.dev.erosnow.com",
             "resolved_locators": {
-              "value": "//example/xpath",
-              "confidence": 100,
-              "xpath": "//example/xpath",
+              "value": "",
+              "confidence": 0.0,
+              "xpath": "",
               "fallbacks": []
             },
             "input_data": null,
@@ -40,16 +40,16 @@
       {
         "tc_id": "TC_002",
         "title": "Login with valid credentials",
-        "description": "Enter valid email & password \u2192 Login",
+        "description": "Enter valid email & password → Login",
         "priority": "P1-Critical",
         "test_type": "Functional",
         "preconditions": "User is registered",
         "steps": [
           {
             "step_no": 1,
-            "action": "Click Let\u2019s Start",
+            "action": "Click Let’s Start",
             "element_type": "button",
-            "original_hint": "text='Let\u2019s Start'",
+            "original_hint": "text='Let’s Start'",
             "resolved_locators": {
               "value": "",
               "confidence": 0.0,
@@ -150,10 +150,10 @@
       {
         "tc_id": "TC_003",
         "title": "Logout functionality",
-        "description": "This test case validates that a logged\u2011in user can successfully log out of the application. The test ensures that when the user hovers over the profile icon, the dropdown menu appears containing the logout option. After clicking the logout button, the session should end, and the user should be redirected to the login page or any defined post\u2011logout screen, confirming that the user has been successfully logged out.",
+        "description": "This test case validates that a logged‑in user can successfully log out of the application. The test ensures that when the user hovers over the profile icon, the dropdown menu appears containing the logout option. After clicking the logout button, the session should end, and the user should be redirected to the login page or any defined post‑logout screen, confirming that the user has been successfully logged out.",
         "priority": "P1-Critical",
         "test_type": "Functional",
-        "preconditions": "Browser is login",
+        "preconditions": "user is login",
         "steps": [
           {
             "step_no": 1,
@@ -194,6 +194,81 @@
               "value": null
             },
             "method_name": "step_02_click_logout_button"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Content Detail",
+    "test_cases": [
+      {
+        "tc_id": "TC_004",
+        "title": "Content title visible",
+        "description": "Open content",
+        "priority": "critical",
+        "test_type": "",
+        "preconditions": "website launches and user is login",
+        "steps": [
+          {
+            "step_no": 1,
+            "action": "Scroll to the \"Blockbuster Movies\" rails",
+            "element_type": "text",
+            "original_hint": "text='Blockbuster Movies'",
+            "resolved_locators": {
+              "value": "",
+              "confidence": 0.0,
+              "xpath": "",
+              "fallbacks": []
+            },
+            "input_data": null,
+            "expected_result": "Blockbuster Movies should be visible",
+            "assertion": {
+              "type": "visible",
+              "target": null,
+              "value": null
+            },
+            "method_name": "step_01_scroll_to_the_blockbuster_movies_rails"
+          },
+          {
+            "step_no": 2,
+            "action": "press enter on the \"goliyon ki raasleela ram leela\"",
+            "element_type": "image",
+            "original_hint": "img = 'goliyon ki raasleela ram leela'",
+            "resolved_locators": {
+              "value": "",
+              "confidence": 0.0,
+              "xpath": "",
+              "fallbacks": []
+            },
+            "input_data": null,
+            "expected_result": "\"goliyon ki raasleela ram leela\"  should be visisble",
+            "assertion": {
+              "type": "visible",
+              "target": null,
+              "value": null
+            },
+            "method_name": "step_02_press_enter_on_the_goliyon_ki_raasleela_ram_leela"
+          },
+          {
+            "step_no": 3,
+            "action": "check the title on the detail page which is \"goliyon ki raasleela ram leela\"",
+            "element_type": "text",
+            "original_hint": "text='goliyon ki raasleela ram leela'",
+            "resolved_locators": {
+              "value": "",
+              "confidence": 0.0,
+              "xpath": "",
+              "fallbacks": []
+            },
+            "input_data": null,
+            "expected_result": "\"goliyon ki raasleela ram leela \" text shoudl be visible on the detail page",
+            "assertion": {
+              "type": "visible",
+              "target": null,
+              "value": null
+            },
+            "method_name": "step_03_check_the_title_on_the_detail_page_which_is_goliyon_ki_raasleela_ram_leela"
           }
         ]
       }

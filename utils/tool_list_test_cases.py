@@ -1,62 +1,91 @@
 import json
 import re
+import os
 
-def get_line_number(content, index):
-    return content.count('\n', 0, index) + 1
+def get_indentation(line):
+    return len(line) - len(line.lstrip())
 
 def tool_list_test_cases():
     """
-    Parses the JSON file to find the start and end lines of each test case.
+    Parses the TOON file to find the start and end lines of each test case.
     Returns a dictionary in the format:
     {
       "TC_001": { "sl": 1, "el": 10 },
       ...
     }
     """
-    file_path = "workspace/intermediate/test_cases_template_output.json"
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    file_path = os.path.join(project_root, "workspace", "intermediate", "test_cases_template.toon")
     
-    with open(file_path, 'r') as f:
-        content = f.read()
+    try:
+        with open(file_path, 'r') as f:
+            lines = f.readlines()
+    except FileNotFoundError:
+        return json.dumps({"error": f"File not found: {file_path}"})
 
     results = {}
     
-    # Find all occurrences of "tc_id": "VALUE"
-    matches = list(re.finditer(r'"tc_id"\s*:\s*"(.*?)"', content))
+    # helper to find test cases
+    # We look for lines like: "  tc_id: TC_XXX"
+    # We assume 'tc_id' is the start of the test case block.
     
-    for match in matches:
-        tc_id = match.group(1)
-        start_search_idx = match.start()
+    current_tc_id = None
+    current_start_line = -1
+    current_indent = -1
+    
+    # Regex to capture tc_id and its value. 
+    # Matches: "  tc_id: TC_001 " -> group(1) = "TC_001"
+    tc_pattern = re.compile(r'^\s*tc_id:\s*(.+)$')
+    
+    for i, line in enumerate(lines):
+        line_num = i + 1
+        stripped = line.strip()
         
-        # Find opening brace backwards
-        open_brace_idx = -1
-        depth = 0
-        for i in range(start_search_idx, -1, -1):
-            char = content[i]
-            if char == '}':
-                depth += 1
-            elif char == '{':
-                if depth == 0:
-                    open_brace_idx = i
-                    break
-                depth -= 1
+        # Skip empty lines, but they are part of the previous block strictly speaking
+        if not stripped:
+            continue
+            
+        indent = get_indentation(line)
+        match = tc_pattern.match(line)
         
-        # Find closing brace forwards
-        close_brace_idx = -1
-        depth = 0
-        for i in range(match.end(), len(content)):
-            char = content[i]
-            if char == '{':
-                depth += 1
-            elif char == '}':
-                if depth == 0:
-                    close_brace_idx = i
-                    break
-                depth -= 1
-        
-        if open_brace_idx != -1 and close_brace_idx != -1:
-            start_line = get_line_number(content, open_brace_idx)
-            end_line = get_line_number(content, close_brace_idx)
-            results[tc_id] = {"sl": start_line, "el": end_line}
+        if match:
+            # We found a new test case start
+            new_tc_id = match.group(1).strip()
+            
+            # If we were processing a test case, close it
+            if current_tc_id:
+                results[current_tc_id]["el"] = line_num - 1
+            
+            # Start new test case
+            current_tc_id = new_tc_id
+            current_start_line = line_num
+            current_indent = indent
+            
+            results[current_tc_id] = {
+                "sl": current_start_line,
+                "el": -1 # Placeholder
+            }
+            
+        else:
+            # If we are inside a test case
+            if current_tc_id:
+                # If indentation drops below the start indentation, the block has ended
+                if indent < current_indent:
+                     # This check works because TOON/YAML hierarchy implies children are indented.
+                     # Siblings are at same indent. Parents are at lower indent.
+                     # If we see a line with lower indent (e.g. 'module: ...'), the previous TC block is done.
+                     results[current_tc_id]["el"] = line_num - 1
+                     current_tc_id = None
+                     current_start_line = -1
+                     current_indent = -1
+                
+                # If indentation is same, it's just another property of the current TC 
+                # OR it's a new TC (handled by the 'if match' block above).
+                # So we just continue.
+
+    # Close the last test case if file ended
+    if current_tc_id and results[current_tc_id]["el"] == -1:
+        results[current_tc_id]["el"] = len(lines)
 
     return json.dumps(results, indent=2)
 

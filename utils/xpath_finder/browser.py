@@ -36,6 +36,13 @@ async def get_page(url: str) -> Page:
     Returns:
         A Playwright Page object with the loaded content.
     """
+    # Normalize URL: auto-prepend https:// if no protocol given
+    if not url.startswith(("http://", "https://")):
+        url = "https://" + url
+
+    # Strip www. from the URL if present (e.g. https://www.dev.erosnow.com -> https://dev.erosnow.com)
+    url = re.sub(r"(https?://)www\.", r"\1", url)
+
     if url in _page_cache:
         return _page_cache[url]["page"]
     

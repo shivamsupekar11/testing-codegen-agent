@@ -1,0 +1,210 @@
+module: Launch
+test_cases[1]:
+  tc_id: TC_001
+  title: Verify website launches
+  description: Launch the Eros Now website and verify it loads successfully.
+  priority: Critical
+  test_type: Functional
+  preconditions: Ensure the web browser is open and ready for navigation.
+  steps[1]:
+    step_no: 1
+    action: Launch website
+    element_type: url
+    original_hint: www.dev.erosnow.com
+    resolved_locators:
+      value: "https://www.dev.erosnow.com"
+      confidence: 1.0
+      xpath: "https://www.dev.erosnow.com"
+      fallbacks[0]:
+    input_data: null
+    expected_result: The Eros Now homepage is displayed without errors.
+    assertion:
+      type: visible
+      target: null
+      value: null
+    method_name: step_01_launch_website
+module: Login
+test_cases[2]:
+  tc_id: TC_002
+  title: Login with valid credentials
+  description: Enter valid email & password → Login
+  priority: P1-Critical
+  test_type: Functional
+  preconditions: User is registered
+  steps[5]:
+    step_no: 1
+    action: Click Let’s Start
+    element_type: button
+    original_hint: text='Let’s Start'
+    resolved_locators:
+      value: "//button[contains(normalize-space(.), 'Let’s Start')]"
+      confidence: 0.95
+      xpath: "//button[contains(normalize-space(.), 'Let’s Start')]"
+      fallbacks[0]: "button.btn"
+    input_data: null
+    expected_result: User is redirected to the login page.
+    assertion:
+      type: text_contains
+      target: null
+      value: null
+    method_name: step_01_click_lets_start
+    step_no: 2
+    action: Enter Email
+    element_type: input
+    original_hint: abel='Email' OR placeholder='Email'
+    resolved_locators:
+      value: "//input[@aria-label='Email' or @placeholder='Email']"
+      confidence: 0.1
+      xpath: "//input[@aria-label='Email' or @placeholder='Email']"
+      fallbacks[0]:
+    input_data: "9284841447"
+    expected_result: The email is entered in the input field.
+    assertion:
+      type: visible
+      target: null
+      value: null
+    method_name: step_02_enter_email
+    step_no: 3
+    action: Click Continue
+    element_type: button
+    original_hint: text='Continue'
+    resolved_locators:
+      value: "//button[contains(text(), 'Continue')]"
+      confidence: 0.1
+      xpath: "//button[contains(text(), 'Continue')]"
+      fallbacks[0]: "(//div[contains(@class, 'o-box-desc')])[9]"
+    input_data: null
+    expected_result: The Continue action is triggered.
+    assertion:
+      type: visible
+      target: null
+      value: null
+    method_name: step_03_click_continue
+    step_no: 4
+    action: Enter Password
+    element_type: input
+    original_hint: label='Password' OR placeholder='Password'
+    resolved_locators:
+      value: "//input[@aria-label='Password' or @placeholder='Password']"
+      confidence: 0.1
+      xpath: "//input[@aria-label='Password' or @placeholder='Password']"
+      fallbacks[0]:
+    input_data: "123456789"
+    expected_result: The password is entered in the field.
+    assertion:
+      type: toast_message
+      target: null
+      value: null
+    method_name: step_04_enter_password
+    step_no: 5
+    action: Click Continue
+    element_type: button
+    original_hint: text='Continue'
+    resolved_locators:
+      value: "//button[contains(text(), 'Continue')]"
+      confidence: 0.1
+      xpath: "//button[contains(text(), 'Continue')]"
+      fallbacks[0]: "(//div[contains(@class, 'o-box-desc')])[9]"
+    input_data: null
+    expected_result: The user is logged in and redirected to the dashboard.
+    assertion:
+      type: ""
+      target: null
+      value: null
+    method_name: step_05_click_continue
+  tc_id: TC_003
+  title: Logout functionality
+  description: Ensure a logged-in user can log out via the profile icon and be redirected to the login page.
+  priority: P1-Critical
+  test_type: Functional
+  preconditions: The user is logged in.
+  steps[2]:
+    step_no: 1
+    action: Hover on the profile icon
+    element_type: dropdown
+    original_hint: aria-label='User menu' OR class contains 'profile'
+    resolved_locators:
+      value: "//*[@aria-label='User menu' or contains(@class, 'profile')]"
+      confidence: 0.1
+      xpath: "//*[@aria-label='User menu' or contains(@class, 'profile')]"
+      fallbacks[0]:
+    input_data: null
+    expected_result: A dropdown menu with account options appears.
+    assertion:
+      type: visible
+      target: null
+      value: null
+    method_name: step_01_hover_on_the_profile_icon
+    step_no: 2
+    action: Click Logout button
+    element_type: button
+    original_hint: text='Logout'
+    resolved_locators:
+      value: "//button[contains(text(), 'Logout')]"
+      confidence: 0.1
+      xpath: "//button[contains(text(), 'Logout')]"
+      fallbacks[0]:
+    input_data: null
+    expected_result: The user is logged out and returned to the login screen.
+    assertion:
+      type: visible
+      target: null
+      value: null
+    method_name: step_02_click_logout_button
+module: Content Detail
+test_cases[1]:
+  tc_id: TC_004
+  title: Content title visible
+  description: Scroll to Blockbuster Movies, select "Goliyon Ki Raasleela Ram Leela," and verify its title is visible on the detail page.
+  priority: Critical
+  test_type: Functional
+  preconditions: The website has loaded, and the user is logged in.
+  steps[3]:
+    step_no: 1
+    action: "Scroll to the \"Blockbuster Movies\" rails"
+    element_type: text
+    original_hint: text='Blockbuster Movies'
+    resolved_locators:
+      value: "//a[contains(normalize-space(.), 'Blockbuster Movies')]"
+      confidence: 0.95
+      xpath: "//a[contains(normalize-space(.), 'Blockbuster Movies')]"
+      fallbacks[0]: "a.pl-anchor-heading"
+    input_data: null
+    expected_result: The Blockbuster Movies rail becomes visible to the user.
+    assertion:
+      type: visible
+      target: null
+      value: null
+    method_name: step_01_scroll_to_the_blockbuster_movies_rails
+    step_no: 2
+    action: "press enter on the \"goliyon ki raasleela ram leela\""
+    element_type: image
+    original_hint: img = 'goliyon ki raasleela ram leela'
+    resolved_locators:
+      value: "//img[contains(@alt, 'goliyon ki raasleela ram leela') or contains(@src, 'goliyon ki raasleela ram leela')]"
+      confidence: 0.1
+      xpath: "//img[contains(@alt, 'goliyon ki raasleela ram leela') or contains(@src, 'goliyon ki raasleela ram leela')]"
+      fallbacks[0]: "(//img[contains(@class, 'l-img')])[9]"
+    input_data: null
+    expected_result: "Goliyon Ki Raasleela Ram Leela" poster is highlighted.
+    assertion:
+      type: visible
+      target: null
+      value: null
+    method_name: step_02_press_enter_on_the_goliyon_ki_raasleela_ram_leela
+    step_no: 3
+    action: "check the title on the detail page which is \"goliyon ki raasleela ram leela\""
+    element_type: text
+    original_hint: text='goliyon ki raasleela ram leela'
+    resolved_locators:
+      value: "//*[contains(text(), 'goliyon ki raasleela ram leela')]"
+      confidence: 0.1
+      xpath: "//*[contains(text(), 'goliyon ki raasleela ram leela')]"
+      fallbacks[0]: "(//img[contains(@class, 'l-img')])[9]"
+    input_data: null
+    expected_result: The title "goliyon ki raasleela ram leela" appears clearly on the detail page.
+    assertion:
+      type: visible
+      target: null
+      value: null
+    method_name: step_03_check_the_title_on_the_detail_page_which_is_goliyon_ki_raasleela_ram_leela
