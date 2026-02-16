@@ -80,7 +80,44 @@ import os
 import re
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TOON_FILE = os.path.join(PROJECT_ROOT, "workspace", "intermediate", "test_cases_template.toon")
+
+def _get_toon_files():
+    """Find all .toon files in workspace/intermediate/archive, sorted by batch number."""
+    intermediate_dir = os.path.join(PROJECT_ROOT, "workspace", "intermediate", "archive")
+    if not os.path.isdir(intermediate_dir):
+        return []
+        
+    files = [f for f in os.listdir(intermediate_dir) if f.endswith('.toon') and not f.startswith('.')]
+    
+    def get_batch_num(filename):
+        match = re.search(r'batch(\d+)', filename)
+        return int(match.group(1)) if match else float('inf')
+        
+    files.sort(key=get_batch_num)
+    return [os.path.join(intermediate_dir, f) for f in files]
+
+TOON_FILES = _get_toon_files()
+
+def load_all_test_cases():
+    """Parses all TOON files and returns aggregated mapping and file contents."""
+    if not TOON_FILES:
+        return [], {}
+        
+    all_mapping = []
+    file_contents = {}
+    
+    for file_path in TOON_FILES:
+        mapping, lines = parse_toon_structure(file_path)
+        if not mapping:
+            continue
+            
+        file_contents[file_path] = lines
+        
+        for m in mapping:
+            m['file_path'] = file_path
+            all_mapping.append(m)
+            
+    return all_mapping, file_contents
 
 def get_indentation(line):
     """Return the number of leading whitespace characters in *line*.
@@ -258,10 +295,10 @@ def tool_read_test_case(tc_ids=None, batch_index=0, batch_size=5):
           ``batch_index`` to use.  Keep calling until you see
           ``'# End of Test Cases.'``.
     """
-    mapping, lines = parse_toon_structure(TOON_FILE)
+    mapping, file_contents = load_all_test_cases()
     
     if not mapping:
-        return f"Error: Could not parse {TOON_FILE}"
+        return "Error: No test cases found in .toon files at workspace/intermediate/archive/"
 
     selected_tcs = []
 
@@ -304,7 +341,8 @@ def tool_read_test_case(tc_ids=None, batch_index=0, batch_size=5):
 
     output = [param_info]
     for tc in selected_tcs:
-        # Extract lines. converting 1-based line nums to 0-based list indices
+        # Extract lines from the specific file for this TC
+        lines = file_contents[tc['file_path']]
         chunk = "".join(lines[tc['sl']-1 : tc['el']])
         output.append(chunk)
 
@@ -366,7 +404,10 @@ if __name__ == "__main__":
         current_idx = load_state()
         
         # Check total batches to see if we should reset or proceed
-        mapping, _ = parse_toon_structure(TOON_FILE)
+        mapping, _ = load_all_test_cases()
+        if not mapping:
+             print("Error: No test cases found in workspace/intermediate/archive/")
+             sys.exit(1)
         batch_size = 5
         total_batches = (len(mapping) + batch_size - 1) // batch_size
         

@@ -2,8 +2,17 @@ import os
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Hardcoded path — this tool only edits the TOON test-cases file.
-TOON_FILE = os.path.join(PROJECT_PATH, "workspace", "intermediate", "test_cases_template.toon")
+# Helper to find the active .toon file
+def _get_active_toon_file():
+    int_dir = os.path.join(PROJECT_PATH, "workspace", "intermediate", "archive")
+    if os.path.isdir(int_dir):
+        files = [f for f in os.listdir(int_dir) if f.endswith('.toon') and not f.startswith('.')]
+        if files:
+            return os.path.join(int_dir, files[0])
+    # Fallback to template name locally if not found (though logic usually fails later)
+    return os.path.join(int_dir, "test_cases_template.toon")
+
+TOON_FILE = _get_active_toon_file()
 
 def edit_file(
     old_string: str,
@@ -11,13 +20,13 @@ def edit_file(
     replace_all: bool = False,
 ):
     """
-    Edit the TOON test-cases file by replacing string occurrences safely.
+    Edit the active TOON test-cases file by replacing string occurrences safely.
 
-    The target file is always:
-        workspace/intermediate/test_cases_template.toon
+    The target file is dynamically located in:
+        workspace/intermediate/archive/*.toon
 
-    No file_path argument is needed — the path is hardcoded for safety
-    and simplicity so the agent cannot accidentally edit other files.
+    No file_path argument is needed — the path is determined automatically so the 
+    agent cannot accidentally edit other files.
 
     Args:
         old_string: The exact text to search for in the file.
@@ -29,7 +38,7 @@ def edit_file(
     Returns:
         On success:
             {
-                "path": "workspace/intermediate/test_cases_template.toon",
+                "path": "workspace/intermediate/archive/test_cases_template.toon",
                 "occurrences": int   # number of replacements made
             }
         On failure:

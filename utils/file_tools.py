@@ -22,7 +22,7 @@ library so it can be used with any agent framework (Google ADK, LangChain, etc.)
 import os
 from pathlib import Path
 
-PROJECT_PATH = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) / "workspace" / "output" / "testing-templates"
+PROJECT_PATH = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 MAX_FILE_SIZE_MB = 10
 MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024
